@@ -8,10 +8,12 @@ if (result.error) {
   throw result.error;
 }
 
-const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+const logger = pino({
+  level: process.env.LOG_LEVEL || "info",
+  prettyPrint: true,
+});
 const expressLogger = expressPino({ logger });
 
-const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(expressLogger);
@@ -21,6 +23,7 @@ app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   logger.info("Server running on port %d", PORT);
 });
